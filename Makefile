@@ -33,6 +33,8 @@ mlx:
 	@$(MAKE) -C $(MLX_PATH)
 
 lib:
+	@git submodule init
+	@git submodule update
 	@$(MAKE) -C $(LIBFT_PATH)
 
 clean:
