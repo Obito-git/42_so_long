@@ -1,3 +1,6 @@
 [submodule "libs/libft_expanded"]
 	path = libs/libft_expanded
 	url = https://github.com/Obito-git/libft_expanded.git
+[submodule "libs/libft"]
+	path = libs/libft
+	url = https://github.com/Obito-git/libft_expanded.git
