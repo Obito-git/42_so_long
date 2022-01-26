@@ -53,60 +53,59 @@ t_bool	is_correct_map(t_map *map)
 	return (is_cor_objectives_count(map, player_count, exit_count));
 } 
 
-t_bool	parse_coords(t_map *map, char *line)
+t_bool	parse_coords(t_map *map, char *s)
 {
 	int	i;
 
 	i = 0;
-	if (map->width < 3 || ft_strlen(line) != (size_t) map->width)
+	if (map->width < 3 || ft_strlen(s) != (size_t) map->width)
 	{
 		ft_printf("Error\nWrong width of the map!\n");
 		return (FALSE);
 	}
-	while (line[i] != '\n')
+	while (s[i] != '\n')
 	{
-		if (!is_map_char(line[i]))
+		if (!is_map_char(s[i]) || !add_elem(map, s[i], i, map->height))
 		{
-			ft_printf("Error\nUnknown char: \"%c\"\n", line[i]);
+			if (!is_map_char(s[i]))
+				ft_printf("Error\nUnknown char: \"%c\"\n", s[i]);
+			else if (!add_elem(map, s[i], i, map->height))
+				ft_printf("Error\nMalloc returned NULL\n");
 			return (FALSE);
 		}
-		if (!add_elem(map, line[i], i, map->height))
-			return (FALSE);
 		i++;
 	}
 	return (TRUE);
 }
 
-t_bool parse_map(t_map **map, int fd)
+t_bool parse_map(t_map *map, int fd)
 {
 	char	*line;
 
 	line = get_next_line(fd);
-	*map = map_init();
-	if (!map || !line)
+	if (!line)
+	{
+		ft_printf("Error\nEmpty file detected\n");
 		return (FALSE);
-	(*map)->width = ft_strlen(line);
+	}
+	map->width = ft_strlen(line);
 	while (line)
 	{
-		if (!parse_coords(*map, line))
+		if (!parse_coords(map, line))
 		{
-			while (line)
-			{
-				free(line);
-				line = get_next_line(fd);
-			}
+			free_gnl(line, fd);
 			return (FALSE);
 		}
 		free(line);
 		line = get_next_line(fd);
-		(*map)->height++;
+		map->height++;
 	}
-	(*map)->width--;
+	map->width--;
 	close(fd);
-	return (is_correct_map(*map));
+	return (is_correct_map(map));
 }
 
-t_bool parse_args(t_map **map, int ac, char **av)
+t_bool parse_args(t_map *map, int ac, char **av)
 {
 	int	fd;
 

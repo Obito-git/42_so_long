@@ -25,6 +25,7 @@ typedef struct s_elem {
 t_map	*map_init(void);
 t_bool	add_elem(t_map *map, char elem, int x, int y);
 void	free_map(t_map *map);
+void	free_gnl(char *line, int fd);
 
-t_bool parse_args(t_map **map, int ac, char **av);
+t_bool parse_args(t_map *map, int ac, char **av);
 #endif

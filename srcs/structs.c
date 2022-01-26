@@ -56,3 +56,12 @@ void	free_map(t_map *map)
 	}
 	free(map);
 }
+
+void	free_gnl(char *line, int fd)
+{
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+}
