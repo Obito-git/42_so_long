@@ -29,6 +29,8 @@ int	main(int ac, char **av)
 		free_map(map);
 		return (0);
 	}
-	print_map(map);
+	draw_map(map);
+	//test(map);
+//	print_map(map);
 	free_map(map);
 }
