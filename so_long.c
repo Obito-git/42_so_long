@@ -19,7 +19,8 @@ void print_map(t_map *map)
 
 int	main(int ac, char **av)
 {
-	t_map *map;
+	t_map		*map;
+	t_window	*w;
 
 	map = map_init();
 	if (!map || !parse_args(map, ac, av))
@@ -29,8 +30,9 @@ int	main(int ac, char **av)
 		free_map(map);
 		return (0);
 	}
-	draw_map(map);
-	//test(map);
-//	print_map(map);
+	w = window_init(map);
+	if (w)
+		draw_map(w, map);
 	free_map(map);
+	free_window(w);
 }

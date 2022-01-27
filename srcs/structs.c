@@ -10,6 +10,7 @@ t_map	*map_init(void)
 	map->width = 0;
 	map->height = 0;
 	map->collect_count = 0;
+	map->moves_count = 0;
 	map->elem_list = NULL;
 	return (map);
 }

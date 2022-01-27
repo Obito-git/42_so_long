@@ -16,9 +16,9 @@
 typedef struct s_map {
 	int				width;
 	int				height;
-	int				player_x;
-	int				player_y;
 	int				collect_count;
+	int				moves_count;
+	struct s_elem	*player;
 	struct s_elem	*elem_list;
 } t_map;
 
@@ -37,7 +37,7 @@ typedef struct s_window {
 	void	*img_collect;
 	void	*img_exit;
 	void	*img_backgr;
-	//struct s_map	*map;
+	struct s_map	*map;
 } t_window;
 
 //structs
@@ -48,7 +48,7 @@ void	free_gnl(char *line, int fd);
 //window
 void		free_window(t_window *w);
 t_window	*window_init(t_map *map);
-void	draw_map(t_map *map);
+void	draw_map(t_window *w, t_map *map);
 
 t_bool parse_args(t_map *map, int ac, char **av);
 void print_map(t_map *map); //FIXME
