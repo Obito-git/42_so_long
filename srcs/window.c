@@ -1,10 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amyroshn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/28 13:57:42 by amyroshn          #+#    #+#             */
+/*   Updated: 2022/01/28 13:58:52 by amyroshn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../so_long.h"
 
-void		free_window(t_window *w)
+int	red_cross(t_window *w)
+{
+	mlx_loop_end(w->mlx);
+	return (0);
+}
+
+void	free_window(t_window *w)
 {
 	if (!w)
 		return ;
-
 	mlx_destroy_image(w->mlx, w->img_wall);
 	mlx_destroy_image(w->mlx, w->img_player);
 	mlx_destroy_image(w->mlx, w->img_collect);
@@ -27,7 +43,7 @@ t_window	*window_init(t_map *map)
 		return (NULL);
 	w->mlx = mlx_init();
 	w->mlx_win = mlx_new_window(w->mlx, BLOCK_SIZE * map->width,
-								BLOCK_SIZE * map->height, "so_long");
+			BLOCK_SIZE * map->height, "so_long");
 	w->img_wall = mlx_xpm_file_to_image(w->mlx, "./img/1.xpm", &size, &size);
 	w->img_player = mlx_xpm_file_to_image(w->mlx, "./img/P.xpm", &size, &size);
 	w->img_collect = mlx_xpm_file_to_image(w->mlx, "./img/C.xpm", &size, &size);

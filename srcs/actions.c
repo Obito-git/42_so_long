@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amyroshn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/28 13:49:29 by amyroshn          #+#    #+#             */
+/*   Updated: 2022/01/28 13:52:24 by amyroshn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../so_long.h"
-t_elem *get_requested_pos(int keycode, t_map *map)
+
+t_elem	*get_requested_pos(int keycode, t_map *map)
 {
 	t_elem	*tmp;
 	int		req_x;
@@ -33,11 +45,9 @@ int	action_handler(int keycode, t_window *w)
 	if (req_pos->elem == '0' || req_pos->elem == 'C')
 	{
 		mlx_put_image_to_window(w->mlx, w->mlx_win, w->img_backgr,
-						w->map->player->x * BLOCK_SIZE,
-						w->map->player->y * BLOCK_SIZE);
+			w->map->player->x * BLOCK_SIZE, w->map->player->y * BLOCK_SIZE);
 		mlx_put_image_to_window(w->mlx, w->mlx_win, w->img_player,
-						req_pos->x * BLOCK_SIZE,
-						req_pos->y * BLOCK_SIZE);
+			req_pos->x * BLOCK_SIZE, req_pos->y * BLOCK_SIZE);
 		if (req_pos->elem == 'C')
 			w->map->collect_count--;
 		w->map->player->elem = '0';
@@ -49,30 +59,38 @@ int	action_handler(int keycode, t_window *w)
 	return (0);
 }
 
-int ft_close(int keycode, t_window *w)
+void	put_moves_count(t_window *w)
+{
+	char		*str;
+
+	mlx_put_image_to_window(w->mlx, w->mlx_win, w->img_wall, 0, 0);
+	str = ft_itoa(w->map->moves_count);
+	mlx_string_put(w->mlx, w->mlx_win, BLOCK_SIZE / 2, BLOCK_SIZE / 2,
+		0x00000000, str);
+	free(str);
+}
+
+int	ft_close(int keycode, t_window *w)
 {
 	int			action_res;
 
 	if (keycode == ESC)
 		mlx_loop_end(w->mlx);
 	else if (keycode == LEFT || keycode == RIGHT
-			|| keycode == UP || keycode == DOWN)
+		|| keycode == UP || keycode == DOWN)
 	{
 		action_res = action_handler(keycode, w);
 		if (action_res == -1)
+		{
+			ft_printf("Final result is %d\n", w->map->moves_count + 1);
 			mlx_loop_end(w->mlx);
+		}
 		if (action_res)
 		{
 			w->map->moves_count++;
-			ft_printf("Moves count : %d\n", w->map->moves_count);
+			put_moves_count(w);
 		}
 	}
-	return (0);
-}
-
-int		red_cross(void)
-{
-	exit(0);
 	return (0);
 }
 
@@ -94,11 +112,12 @@ void	draw_map(t_window *w, t_map *map)
 			img_pointer = w->img_collect;
 		if (tmp->elem == 'E')
 			img_pointer = w->img_exit;
-		mlx_put_image_to_window(w->mlx, w->mlx_win, img_pointer, tmp->x 
-								* BLOCK_SIZE, tmp->y * BLOCK_SIZE);
+		mlx_put_image_to_window(w->mlx, w->mlx_win, img_pointer,
+			tmp->x * BLOCK_SIZE, tmp->y * BLOCK_SIZE);
 		tmp = tmp->next;
 	}
-	mlx_hook(w->mlx_win, 2, 1L<<0, ft_close, w);
-	mlx_hook(w->mlx_win, 33, 1L << 17, red_cross, NULL);
+	put_moves_count(w);
+	mlx_hook(w->mlx_win, 2, 1L << 0, ft_close, w);
+	mlx_hook(w->mlx_win, 33, 1L << 17, red_cross, w);
 	mlx_loop(w->mlx);
 }

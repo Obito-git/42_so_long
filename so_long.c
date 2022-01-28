@@ -1,20 +1,20 @@
-#include "libs/minilibx-linux/mlx.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amyroshn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/28 13:48:21 by amyroshn          #+#    #+#             */
+/*   Updated: 2022/01/28 13:54:32 by amyroshn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "so_long.h"
 
-void print_map(t_map *map)
+t_bool	is_map_char(char c)
 {
-	ft_printf("height %d, width %d\n", map->height, map->width);
-	t_elem *tmp = map->elem_list;
-	while (tmp)
-	{
-		int x = tmp->x;
-		ft_printf("%c(%d,%d) ", tmp->elem, tmp->x, tmp->y);
-		tmp = tmp->next;
-		if (tmp && tmp->x < x)
-			ft_printf("\n");
-		else if (!tmp)
-			ft_printf("\n");
-	}
+	return (c == '0' || c == '1' || c == 'C'
+		|| c == 'E' || c == 'P' || c == '\n');
 }
 
 int	main(int ac, char **av)

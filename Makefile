@@ -15,7 +15,7 @@ LIBFT_PATH=$(LIBS)libft/
 LIBFT_NAME=libft.a
 LIBFT  = $(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 
-SRCS = so_long.c srcs/parse_map.c srcs/structs.c srcs/window.c srcs/actions.c
+SRCS = so_long.c srcs/parse_map.c srcs/map_init_free.c srcs/window.c srcs/actions.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

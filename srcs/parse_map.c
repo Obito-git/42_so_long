@@ -1,9 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amyroshn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/28 13:52:30 by amyroshn          #+#    #+#             */
+/*   Updated: 2022/01/28 13:55:54 by amyroshn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../so_long.h"
-t_bool is_map_char(char c)
-{
-	return (c == '0' || c == '1' || c == 'C'
-			|| c == 'E' || c == 'P' || c == '\n');
-}
 
 t_bool	is_cor_objectives_count(t_map *map, int player, int exit)
 {
@@ -38,7 +44,7 @@ t_bool	is_correct_map(t_map *map)
 	while (tmp)
 	{
 		if ((tmp->x == 0 || tmp->x == map->width - 1
-			|| tmp->y == 0 || tmp->y == map->height - 1)
+				|| tmp->y == 0 || tmp->y == map->height - 1)
 			&& tmp->elem != '1')
 		{
 			ft_printf("Error\nIncorrect walls\n");
@@ -51,7 +57,7 @@ t_bool	is_correct_map(t_map *map)
 		tmp = tmp->next;
 	}
 	return (is_cor_objectives_count(map, player_count, exit_count));
-} 
+}
 
 t_bool	parse_coords(t_map *map, char *s)
 {
@@ -78,7 +84,7 @@ t_bool	parse_coords(t_map *map, char *s)
 	return (TRUE);
 }
 
-t_bool parse_map(t_map *map, int fd)
+t_bool	parse_map(t_map *map, int fd)
 {
 	char	*line;
 
@@ -105,7 +111,7 @@ t_bool parse_map(t_map *map, int fd)
 	return (is_correct_map(map));
 }
 
-t_bool parse_args(t_map *map, int ac, char **av)
+t_bool	parse_args(t_map *map, int ac, char **av)
 {
 	int	fd;
 
